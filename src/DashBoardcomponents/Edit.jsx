@@ -42,7 +42,7 @@ function Edit() {
     getData();
   }, []);
   return (
-    <Card className="customize-card">
+    <Card className="customize-card-edit">
       <Card.Header>Edit a Note</Card.Header>
       <Card.Body>
         <Formik
