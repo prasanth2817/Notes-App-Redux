@@ -1,57 +1,69 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { edit } from "../Redux/userSlice";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useFormik } from "formik";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 function Edit() {
-  let [title, setTitle] = useState("");
-  let [notes, setNotes] = useState("");
-  const params = useParams();
   const Notes = useSelector((state) => state.Notes);
-  let Navigate = useNavigate();
-  let dispatch = useDispatch();
-  const createNotes = (values) => {
-    const payload = {
-      id: Number(params.id),
-      ...values,
-    };
-    dispatch(edit(payload));
-    Navigate("/Dashboard");
-  };
+  const Navigate = useNavigate();
+  let [initialValues, setIntialvalues] = useState({ title: "", notes: "" });
+  const params = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const Userschema = Yup.object().shape({
     title: Yup.string().required("*Required"),
     notes: Yup.string().required("*This Field Should not be Empty"),
   });
-
-  const getData = () => {
-    const noteIndex = Notes.findIndex((note) => note.id === Number(params.id));
-    console.log("Note Index:", noteIndex);
-    if (noteIndex !== -1) {
-      setTitle(Notes[noteIndex].title);
-      setNotes(Notes[noteIndex].notes);
-    } else {
-      Navigate("/Dashboard");
-    }
+  const createNotes = (values) => {
+    console.log(values);
+    const payload = {
+      ...values,
+      id: params.id,
+    };
+    console.log(payload);
+    dispatch(edit(payload));
+    Navigate("/Dashboard");
+  };
+  const getData = (index) => {
+    console.log(index);
+    const newArray = { ...Notes };
+    console.log(newArray);
+    newArray.title = Notes[index].title;
+    newArray.notes = Notes[index].notes;
+    setIntialvalues(newArray);
   };
   useEffect(() => {
-    getData();
+    if (Number(params.id < Notes.length)) {
+      getData(Number(params.id));
+    } else {
+      navigate("/Dashboard");
+    }
   }, []);
+
   return (
     <Card className="customize-card-edit">
-      <Card.Header>Edit a Note</Card.Header>
+      <Card.Header className="card-header">Edit a Note</Card.Header>
       <Card.Body>
         <Formik
-          initialValues={{ title: title, notes: notes }}
+          initialValues={initialValues}
           validationSchema={Userschema}
           enableReinitialize={true}
           onSubmit={createNotes}
         >
-          {({ values, errors, touched, handleChange, handleSubmit }) => (
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+          }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
                 <Form.Control
@@ -60,6 +72,7 @@ function Edit() {
                   className="text-area"
                   placeholder="Title"
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   value={values.title}
                 />
                 {errors.title && touched.title ? (
@@ -73,6 +86,7 @@ function Edit() {
                   className="text-area"
                   placeholder="Take a Note"
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   value={values.notes}
                 />
                 {errors.notes && touched.notes ? (

@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import NotesIcon from "./Icons/Notes-icon.svg";
+import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
@@ -16,7 +16,9 @@ function Sidebar() {
                 <img src={NotesIcon} alt="icon" />
               </div>
               <div>
+                <Link to="/Dashboard">
                   <span>Notes</span>
+                </Link>
               </div>
             </div>
           </li>

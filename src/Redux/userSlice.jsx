@@ -10,7 +10,6 @@ export const userSlice = createSlice({
     {
       id: 0,
       title: "Feedback",
-      timestamp: new Date().toISOString(),
       notes:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit cum natus sed nesciunt eveniet distinctio animi ex earum perferendis et qui quisquam alias debitis vero consectetur quasi, ratione necessitatibus eius.",
     },
@@ -29,27 +28,24 @@ export const userSlice = createSlice({
   ],
   reducers: {
     add: (state, action) => {
-      let id = 0;
-      if (state.length > 0) {
-        id = state[state.length - 1].id + 1;
-      }
+      let id = action.payload.id;
       let newNote = {
-        ...action.payload,
         id: id,
-        timestamp: new Date().toISOString(),
+        ...action.payload,
       };
+      console.log(newNote);
       state.unshift(newNote);
     },
     delete: (state, action) => {
       return state.filter((note) => note.id !== action.payload);
     },
     edit: (state, action) => {
-      const { id, title, notes } = action.payload;
-      const noteIndex = state.findIndex((note) => note.id === id);
-
-      if (noteIndex !== -1) {
-        state[noteIndex] = { id, title, notes };
-      }
+      let id = action.payload.id;
+      let newNote = {
+        ...action.payload,
+        id: id,
+      };
+      state.splice(id, 1, newNote);
     },
   },
 });

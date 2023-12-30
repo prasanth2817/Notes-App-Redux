@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { add } from "../Redux/userSlice";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 function Create() {
-  let [title, setTitle] = useState("");
-  let [notes, setNotes] = useState("");
+  const Notes = useSelector((state) => state.Notes);
   let dispatch = useDispatch();
   const createNotes = (values, { resetForm }) => {
     const payload = {
-      title: values.title,
-      notes: values.notes,
+      ...values,
+      id: Notes.length,
     };
+    console.log(payload);
     dispatch(add(payload));
     resetForm();
   };
@@ -23,7 +23,7 @@ function Create() {
   });
   return (
     <Card className="customize-card">
-      <Card.Header>Add a Note</Card.Header>
+      <Card.Header className="card-header">Add a Note</Card.Header>
       <Card.Body>
         <Formik
           initialValues={{ title: "", notes: "" }}

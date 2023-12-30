@@ -19,6 +19,10 @@ body {
 .sidebar-position {
   position: fixed;
 }
+a {
+  text-decoration: none;
+  color: #f5f5f5;
+}
 .sidebar {
   list-style: none;
   text-decoration: none;
@@ -50,7 +54,6 @@ body {
 }
 .customize-card {
   width: 80%;
-  height: 340px;
   border-radius: 16px;
   margin-top: 3rem;
   margin-left: 7rem;
@@ -63,12 +66,23 @@ body {
   overflow-y: hidden;
   width: 60%;
   padding: 5rem;
-  background:  #E3E8F8;
+  background: #e3e8f8;
   box-shadow: 2px 4px 16px 0px rgba(32, 53, 98, 0.47);
 }
 .save-button {
   border-radius: 4px;
   border: 1px solid #ccc;
+}
+.card-header-edit {
+  display: flex;
+  background: #e3e8f8;
+  border-bottom: 1px solid #e3e8f8;
+  color: #203562;
+  font-size: 32px;
+  gap: 2rem;
+  padding: 1rem 1rem;
+  font-weight: 600;
+  line-height: 44.8px;
 }
 .card-header {
   display: flex;

@@ -1,11 +1,9 @@
-import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Dashboard from "./Dashboard";
 import Edit from "./DashBoardcomponents/Edit";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
     <>
